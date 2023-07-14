@@ -2,7 +2,19 @@ CREATE TABLE IF NOT EXISTS accounts(
   id VARCHAR(255) NOT NULL primary key COMMENT 'primary key',
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
-  name varchar(255) COMMENT 'User Name',
-  email varchar(255) COMMENT 'User Email',
-  picture varchar(255) COMMENT 'User Picture'
-) default charset utf8 COMMENT '';
+  name VARCHAR(255) COMMENT 'User Name',
+  email VARCHAR(255) COMMENT 'User Email',
+  picture VARCHAR(500) COMMENT 'User Picture',
+  coverImg VARCHAR(500) COMMENT 'User Cover Image'
+) default charset utf8mb4 COMMENT '';
+
+CREATE TABLE IF NOT EXISTS keeps(
+ id INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'Primary Key',
+ creatorId VARCHAR(255) NOT NULL COMMENT 'Creator Id',
+ createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+ updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+ name VARCHAR(255) NOT NULL COMMENT 'Name',
+ description VARCHAR(999) NOT NULL COMMENT 'Description',
+ img VARCHAR(500) NOT NULL COMMENT 'Image'
+ views INT NOT NULL DEFAULT 0
+) default charset utf8mb4 COMMENT '';
