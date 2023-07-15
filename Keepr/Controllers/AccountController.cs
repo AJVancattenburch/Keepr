@@ -5,14 +5,16 @@ namespace Keepr.Controllers;
 public class AccountController : ControllerBase
 {
   private readonly AccountService _accountService;
-  private readonly Auth0Provider _auth0Provider;
+  private readonly Auth0Provider _auth;
   private readonly VaultsService _vs;
+  private readonly VaultKeepsService _vks;
 
-  public AccountController(AccountService accountService, Auth0Provider auth0Provider, VaultsService vs)
+  public AccountController(AccountService accountService, Auth0Provider auth, VaultsService vs, VaultKeepsService vks)
   {
     _accountService = accountService;
-    _auth0Provider = auth0Provider;
+    _auth = auth;
     _vs = vs;
+    _vks = vks;
   }
 
   [HttpGet]
@@ -21,7 +23,7 @@ public class AccountController : ControllerBase
   {
     try
     {
-      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
       return Ok(_accountService.GetOrCreateProfile(userInfo));
     }
     catch (Exception e)
@@ -36,7 +38,7 @@ public class AccountController : ControllerBase
   {
     try
     {
-      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
       List<Vault> myVaults = _vs.GetMyVaults(userInfo.Id);
       return Ok(myVaults);
     }
@@ -45,4 +47,23 @@ public class AccountController : ControllerBase
       return BadRequest(e.Message);
     }
   }
+
+  [HttpGet("{vaultKeeps}")]
+  [Authorize]
+  public async Task<ActionResult<List<VaultKeep>>> GetMyVaultKeeps()
+  {
+    try
+    {
+      Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
+      string userId = userInfo.Id;
+      List<VaultKeep> myVaultKeeps = _vks.GetMyVaultKeeps(userId);
+      return Ok(myVaultKeeps);
+    }
+    catch (Exception e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
+
+
 }

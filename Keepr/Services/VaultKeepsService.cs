@@ -1,0 +1,62 @@
+namespace Keepr.Services;
+
+public class VaultKeepsService
+{
+  private readonly VaultKeepsRepository _repo;
+
+  public VaultKeepsService(VaultKeepsRepository repo)
+  {
+    _repo = repo;
+  }
+
+  internal VaultKeep CreateVaultKeep(VaultKeep newVaultKeep, string userId, Vault vault)
+  {
+    if (vault.CreatorId == userId)
+    {
+      newVaultKeep.CreatorId = userId;
+      int vaultKeepId = _repo.CreateVaultKeep(newVaultKeep);
+      VaultKeep vaultKeep = GetVaultKeepById(vaultKeepId);
+      return vaultKeep;
+    }
+    else
+    {
+      throw new Exception("[UNAUTHORIZED] You are not the creator of this vault!");
+    }
+  }
+
+  internal string DeleteVaultKeep(string userId, int vaultKeepId)
+  {
+    VaultKeep original = GetVaultKeepById(vaultKeepId);
+    if (original.CreatorId == userId)
+    {
+      _repo.DeleteVaultKeep(vaultKeepId);
+      return $"Successfully Deleted VaultKeep Id #{vaultKeepId}";
+    }
+    else
+    {
+      throw new Exception("[UNAUTHORIZED] You are not the creator of this vault!");
+    }
+  }
+
+  internal List<VaultKeep> GetMyVaultKeeps(string userId)
+  {
+    List<VaultKeep> myVaultKeeps = _repo.GetMyVaultKeeps(userId);
+    return myVaultKeeps;
+  }
+
+  internal VaultKeep GetVaultKeepById(int vaultKeepId)
+  {
+    VaultKeep vaultKeep = _repo.GetVaultKeepById(vaultKeepId);
+    if (vaultKeep == null)
+    {
+      throw new Exception($"[INVALID] VaultKeep Id #{vaultKeepId}");
+    }
+    return vaultKeep;
+  }
+
+  internal List<VaultHasKeep> GetVaultKeepsByVaultId(int vaultId)
+  {
+    List<VaultHasKeep> vaultHasKeeps = _repo.GetVaultKeepsByVaultId(vaultId);
+    return vaultHasKeeps;
+  }
+}

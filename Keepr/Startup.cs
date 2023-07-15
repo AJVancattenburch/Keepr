@@ -40,6 +40,9 @@ public class Startup
     services.AddScoped<VaultsRepository>();
     services.AddScoped<VaultsService>();
 
+    services.AddScoped<VaultKeepsRepository>();
+    services.AddScoped<VaultKeepsService>();
+
     services.AddScoped<ProfilesRepository>();
     services.AddScoped<ProfilesService>();
   }

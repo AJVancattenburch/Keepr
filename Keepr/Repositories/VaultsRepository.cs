@@ -29,6 +29,17 @@ public class VaultsRepository
     return vault;
   }
 
+  internal void DeleteVault(int vaultId)
+  {
+    string sql = @"
+    DELETE 
+    FROM vaults 
+    WHERE id = @vaultId 
+    LIMIT 1
+    ;";
+    _db.Execute(sql, new { vaultId });
+  }
+
   internal Vault EditVault(Vault original)
   {
     string sql = @"
@@ -74,5 +85,20 @@ public class VaultsRepository
       return v;
     }, new { vaultId }).FirstOrDefault();
     return vault;
+  }
+
+  internal List<Vault> GetVaultsByProfileId(string profileId)
+  {
+    string sql = @"
+    SELECT
+    *
+    FROM vaults
+    WHERE 
+    vaults.creatorId = @profileId
+    ;";
+    
+    List<Vault> vaults = _db.Query<Vault>(sql, 
+    new { profileId }).ToList();
+    return vaults;
   }
 }
