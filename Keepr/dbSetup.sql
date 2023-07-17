@@ -52,24 +52,24 @@ CREATE TABLE IF NOT EXISTS vaultKeeps(
   vaults,
   keeps;
 
-  /* INSERT INTO keeps
+  INSERT INTO keeps
   (name, description, img, creatorId)
   VALUES
-  ('Sweet Png', 'Check out this sweet png!', 'https://i.imgur.com/1QZ7wYV.png', '647fe77f07eaa2e6662ac239'),
-  ('Cool Png', 'This png is so cool man!'. 'https://i.imgur.com/1QZ7wYV.png', '647fe77f07eaa2e6662ac239'),
-  ('Awesome Png', 'This png is awesome!', 'https://i.imgur.com/1QZ7wYV.png', '647fe77f07eaa2e6662ac239');
+  ('Sweet Png', 'Check out this sweet png!', 'https://th.bing.com/th/id/R.4199edcef653e72fa3dd9b9bb629f2f5?rik=XNA%2fwfqt8Bw%2bKA&riu=http%3a%2f%2fclipartix.com%2fwp-content%2fuploads%2f2016%2f12%2fAwesome-clip-art-download-image-2.png&ehk=DW9K7kzvxznRArz6RVfyeHrJ56Myr7fcnmsFvRiq71Y%3d&risl=&pid=ImgRaw&r=0', '647fe77f07eaa2e6662ac239');
+  /* ('Cool Png', 'This png is so cool man!'. 'https://wallpapercave.com/wp/huUjeWj.jpg', '647fe77f07eaa2e6662ac239'),
+  ('Awesome Png', 'This png is awesome!', 'https://th.bing.com/th/id/R.051a04cbabda2e976ccfdf5479eb0b97?rik=g%2bSUpTML10vakg&riu=http%3a%2f%2fclipartmag.com%2fimages%2fawesome-job-clipart-35.png&ehk=Zfn2oYc3vrI8VuqlJlWCDCo%2fHgqyVfWGSFSdiF0iUW8%3d&risl=&pid=ImgRaw&r=0', '647fe77f07eaa2e6662ac239'); */
 
   INSERT INTO vaults
   (name, description, img, creatorId)
   VALUES
-  ('Pngs n Things', 'This is a vault for all my sweet pngs!', 'https://i.imgur.com/1QZ7wYV.png', LAST_INSERT_ID());
+  ('Pngs n Things', 'This is a vault for all my sweet pngs!', 'https://i.imgur.com/1QZ7wYV.png', '647fe77f07eaa2e6662ac239');
     
   INSERT INTO vaultKeeps
   (vaultId, keepId, creatorId)
   VALUES
-  (1, 1, '1'),
-  (1, 2, '1'),
-  (1, 3, '1'),
+  (1, 1, '647fe77f07eaa2e6662ac239'),
+  (1, 2, '647fe77f07eaa2e6662ac239'),
+  (1, 3, '647fe77f07eaa2e6662ac239');
 
   DELETE
   FROM vaultKeeps
