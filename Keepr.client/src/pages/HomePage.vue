@@ -1,9 +1,7 @@
 <template>
 
-  <div class="container-fluid">
-    
+  <div class="container-fluid">    
     <section class="row mt-3 overflow-hidden">
-      
       <div class="masonry-with-columns" id="masonry-with-columns">
         <div v-for="(keep, index) in keeps" :key="index" class="">
           <KeepCard :keep="keep" class=""/>
@@ -22,14 +20,14 @@ import KeepCard from '../components/KeepCard.vue';
 import { computed, onMounted } from 'vue';
 import Pop from "../utils/Pop.js";
 import { logger } from "../utils/Logger.js";
-import { keepsService } from "../services/keepsService.js";
+import { keepsService } from "../services/KeepsService.js";
 // import { useRoute } from 'vue-router'
 // import { profilesService } from "../services/ProfilesService.js";
 
 export default {
 
   components: {
-    KeepCard
+    KeepCard,
   },
 
   setup() {

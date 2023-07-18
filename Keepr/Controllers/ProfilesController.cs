@@ -53,7 +53,7 @@ public class ProfilesController : ControllerBase
     try
     {
       Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
-      string userId = userInfo.Id;
+      string userId = userInfo?.Id;
       List<Vault> vaults = _vs.GetVaultsByProfileId(profileId, userId);
       return Ok(vaults);
     }

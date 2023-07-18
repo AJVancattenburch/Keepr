@@ -1,7 +1,7 @@
 <template>
-<section class="container-fluid">
+<section v-if="profile" :key="profile?.id" class="container-fluid">
 
-  <div v-if="profile">
+  <div>
     <div class="row cover-img" :style="{ backgroundImage: `url(${profile.picture})` }">
       <div class="card d-flex flex-row mx-auto" style="width: 70%; height: 70%; opacity: .92;">
         <div class="col-4">
@@ -32,14 +32,14 @@
 
 
 
-  <section v-for="p in profile" :key="p?.id" class="row" style="overflow-x: hidden;">
+  <section class="row" style="overflow-x: hidden;">
     <h2 class="carousel__title mt-3 text-center text-uppercase"> {{ profile.name }}'s keeps </h2>
     <div class="col-12 m-auto bg-dark justify-content-center align-items-center shadow-lg elevation-5">
       <Carousel ref="myCarousel" :itemsToShow="3.95" :wrapAround="true" :transition="500" class="mt-5">
         <Slide v-for="slide in carouselKeeps" :key="slide" class="">
             <div class="carousel__card bg-transparent" style="">
               <div class="carousel__item">
-                <img @click="getKeepById(keep.id)" data-bs-target="#detailsModal" :src="slide.img" class="card-img-top selectable pt-5" :alt="slide.name">
+                <img v-if="carouselKeeps" @click="getKeepById(slide.id)" data-bs-target="#detailsModal" :src="slide.img" class="card-img-top selectable pt-5" :alt="slide.name">
                 <h3 class="card-title"> {{ slide.name }} </h3>
                 <div class="card-body mb-4">
                   <p class="card-text"> {{ slide.description.split(' ').splice(0, 9).join(' ') }}... </p>
@@ -115,10 +115,10 @@ export default {
         (a, b) => b.views - a.views)
         ),
 
-      getKeepById(keepId) {
+      async getKeepById(keepId) {
         try {
           logger.log('[KEEPCARD] => getKeepById() keepId: ', keepId)
-          keepsService.getKeepById(keepId)
+          await keepsService.getKeepById(keepId)
           Modal.getOrCreateInstance('#detailsModal').show()
         } catch (error) {
           Pop.error(error.message, 'Error')

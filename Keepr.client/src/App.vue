@@ -3,6 +3,7 @@
     <Navbar />
   </header>
   <main>
+
     <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="none">
       <defs />
       <linearGradient id="SVGID_1_" x1="2880" x2="2880" y1="909.66" y2="170.6" gradientUnits="userSpaceOnUse">
@@ -49,10 +50,21 @@
     
       </g>
     </svg> -->
+
     <router-view />
+
     <LgScrollingModal id="detailsModal">
       <KeepDetailsCard />
     </LgScrollingModal>
+
+    <LgScrollingOffcanvas id="createKeepForm">
+      <CreateKeepForm />
+    </LgScrollingOffcanvas>
+
+    <LgScrollingOffcanvas id="createVaultForm">
+      <CreateVaultForm />
+    </LgScrollingOffcanvas>
+
   </main>
 </template>
 
@@ -61,7 +73,10 @@ import { computed } from 'vue'
 import { AppState } from './AppState'
 import Navbar from './components/Navbar.vue'
 import LgScrollingModal from './components/LgScrollingModal.vue'
+import LgScrollingOffcanvas from './components/LgScrollingOffcanvas.vue'
 import KeepDetailsCard from './components/KeepDetailsCard.vue'
+import CreateKeepForm from "./components/CreateKeepForm.vue"
+import CreateVaultForm from "./components/CreateVaultForm.vue"
 // import gsap from 'gsap'
 
 export default {
@@ -131,7 +146,14 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar, LgScrollingModal, KeepDetailsCard }
+  components: { 
+                Navbar,
+                LgScrollingModal, 
+                LgScrollingOffcanvas, 
+                KeepDetailsCard, 
+                CreateKeepForm, 
+                CreateVaultForm 
+              }
 }
 </script>
 <style lang="scss">
@@ -140,7 +162,6 @@ export default {
 :root{
   --main-height: calc(100vh - 32px - 64px);
 }
-
 
 footer {
   display: grid;
