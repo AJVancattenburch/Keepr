@@ -56,24 +56,24 @@ public class VaultsService
     return myVaults;
   }
 
-  internal List<Vault> GetVaultsByProfileId(string userId, string profileId)
+  internal List<Vault> GetVaultsByProfileId(string profileId, string userId)
   {
     List<Vault> vaults = _repo.GetVaultsByProfileId(profileId);
-    List<Vault> filteredVaults = vaults.FindAll(v => 
-      v.CreatorId != userId && v.IsPrivate == false
+    List<Vault> filteredVaults = vaults.FindAll(
+      v => v.IsPrivate == false
       );
 
     return filteredVaults;
   }
 
-  internal Vault GetVaultById(int vaultId, string UserId)
+  internal Vault GetVaultById(int vaultId, string userId)
   {
     Vault vault = _repo.GetVaultById(vaultId);
     if (vault == null)
     {
       throw new Exception($"Invalid Id #{vaultId}");
     }
-    if (vault.IsPrivate == true && vault.CreatorId != UserId)
+    if (vault.IsPrivate == true && userId != vault.CreatorId)
     {
       throw new Exception("[RESTRICTED] This is another user's private vault!");
     }

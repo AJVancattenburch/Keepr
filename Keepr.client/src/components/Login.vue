@@ -1,10 +1,10 @@
 <template>
   
-    <button class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0 rounded-circle" @click="login"
+    <!-- <button class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0 rounded-circle" @click="login"
       v-if="!user.isAuthenticated">
       <i title="Login" class="mdi mdi-login"></i>
-    </button>
-    <div v-else>
+    </button> -->
+    <div>
       <div class="dropdown my-2 my-lg-0">
         <div type="button" class="border-0 selectable no-select" data-bs-toggle="dropdown" aria-expanded="false">
           <div v-if="account.picture || user.picture">
@@ -18,10 +18,10 @@
                 Manage Account
               </div>
             </router-link>
-            <div class="list-group-item dropdown-item list-group-item-action text-danger selectable" style="text-shadow: .5px .5px 1px black;" @click="logout">
+            <!-- <div class="list-group-item dropdown-item list-group-item-action text-danger selectable" style="text-shadow: .5px .5px 1px black;" @click="logout">
               <i class="mdi mdi-logout"></i>
-              logout
-            </div>
+              logout -->
+            <!-- </div> -->
           </div>
         </div>
       </div>

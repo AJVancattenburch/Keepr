@@ -4,6 +4,7 @@
     <img class="rounded" :src="account.picture" alt="" />
     <p>{{ account.email }}</p>
   </div>
+  
 </template>
 
 <script>
@@ -18,8 +19,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
 img {
   max-width: 100px;
 }
+
 </style>

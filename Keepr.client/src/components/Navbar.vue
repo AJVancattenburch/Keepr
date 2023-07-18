@@ -18,7 +18,7 @@
       <li v-if="!user.isAuthenticated">
         <a @click="login" href="" class="mdi mdi-login"></a>
       </li>
-      <div v-else>
+      <div v-else-if="user.isAuthenticated">
         <li>
           <a title="" href=""><Login /></a>
         </li>

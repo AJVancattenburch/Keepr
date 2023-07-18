@@ -6,7 +6,9 @@
       <img :src="keep.creator.picture"
         :alt="keep.creator.name" :title="keep.creator.name">
     </div>
-    <img :src="keep.img" :alt="keep.name" class="keep-img">
+    <div @click="getKeepById(keep.id)" data-bs-target="#detailsModal" class="selectable">
+      <img :src="keep.img" :alt="keep.name" class="keep-img">
+    </div>
   </div>
 
 
@@ -16,7 +18,11 @@
 
 <script>
 
+import { Modal } from "bootstrap";
 import { Keep } from "../models/Keep.js";
+import { keepsService } from "../services/keepsService.js";
+import { logger } from "../utils/Logger.js";
+import Pop from "../utils/Pop.js";
 
 export default {
 
@@ -32,7 +38,17 @@ export default {
     // const route = useRoute()
 
     return {
-      // route
+      
+      getKeepById(keepId) {
+        try {
+          logger.log('[KEEPCARD] => getKeepById() keepId: ', keepId)
+          keepsService.getKeepById(keepId)
+          Modal.getOrCreateInstance('#detailsModal').show()
+        } catch (error) {
+          Pop.error(error.message, 'Error')
+          logger.log(error)
+        }
+      }
     }
   }
 }

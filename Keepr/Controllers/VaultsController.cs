@@ -40,7 +40,7 @@ public class VaultsController : ControllerBase
     try
     {
       Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
-      string userId = userInfo.Id;
+      string userId = userInfo?.Id;
       Vault vault = _vs.GetVaultById(vaultId, userId);
       return Ok(vault);
     }
@@ -56,9 +56,8 @@ public class VaultsController : ControllerBase
     try
     {
       Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
-      string userId = userInfo.Id;
-      Vault vault = _vs.GetVaultById(vaultId, userId);
-      List<VaultHasKeep> vaultHasKeeps = _vks.GetVaultKeepsByVaultId(vaultId);
+      string userId = userInfo?.Id;
+      List<VaultHasKeep> vaultHasKeeps = _vks.GetVaultKeepsByVaultId(vaultId, userId);
       return Ok(vaultHasKeeps);
     }
     catch (Exception e)

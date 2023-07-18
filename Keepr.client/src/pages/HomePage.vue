@@ -1,7 +1,9 @@
 <template>
 
   <div class="container-fluid">
+    
     <section class="row mt-3 overflow-hidden">
+      
       <div class="masonry-with-columns" id="masonry-with-columns">
         <div v-for="(keep, index) in keeps" :key="index" class="">
           <KeepCard :keep="keep" class=""/>
@@ -71,6 +73,8 @@ export default {
 
 
 <style scoped lang="scss">
+
+
 
 .masonry-with-columns {
   columns: 4 200px;
