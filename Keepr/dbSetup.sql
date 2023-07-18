@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS accounts(
   name VARCHAR(255) COMMENT 'User Name',
   email VARCHAR(255) COMMENT 'User Email',
   picture VARCHAR(500) COMMENT 'User Picture',
-  coverImg VARCHAR(500) COMMENT 'User Cover Image'
+  coverImg VARCHAR(500) COMMENT 'User Cover Image',
+  bio TEXT COMMENT 'User Bio'
 ) default charset utf8mb4 COMMENT '';
 
 CREATE TABLE IF NOT EXISTS keeps(

@@ -3,8 +3,10 @@
   <div class="keep-container">
     <div class="title-container">
       <h5 class="keep-title">{{ keep.name }}</h5>
+      <router-link :to="{name: 'Profile', params: { profileId: keep.creator.id }}" class="selectable">
       <img :src="keep.creator.picture"
         :alt="keep.creator.name" :title="keep.creator.name">
+      </router-link>
     </div>
     <div @click="getKeepById(keep.id)" data-bs-target="#detailsModal" class="selectable">
       <img :src="keep.img" :alt="keep.name" class="keep-img">
