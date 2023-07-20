@@ -2,14 +2,14 @@ CREATE TABLE IF NOT EXISTS accounts(
   id VARCHAR(255) NOT NULL primary key COMMENT 'primary key',
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
-  name VARCHAR(255) NOT NULL COMMENT 'User Name',
-  email VARCHAR(255) NOT NULL COMMENT 'User Email',
-  picture VARCHAR(500) NOT NULL COMMENT 'User Picture',
-  coverImg VARCHAR(500) NOT NULL COMMENT 'User Cover Image',
+  name VARCHAR(255) COMMENT 'User Name',
+  email VARCHAR(255) COMMENT 'User Email',
+  picture VARCHAR(500) COMMENT 'User Picture',
+  coverImg VARCHAR(500) COMMENT 'User Cover Image',
   bio TEXT COMMENT 'User Bio'
 ) default charset utf8mb4 COMMENT '';
 
-ALTER TABLE accounts ADD COLUMN coverImg VARCHAR(255) DEFAULT "";
+ALTER TABLE accounts MODIFY COLUMN coverImg VARCHAR(500) DEFAULT "";
 
 CREATE TABLE IF NOT EXISTS keeps(
  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'Primary Key',

@@ -16,8 +16,10 @@
         <img :src="keep.img" class="keep-img img-fluid" :alt="`Image by: ${keep.creator.name} failed to load`">
         <p class="keep-description pt-3"> {{ keep.description }} </p>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <div class="col-9 pt-4 me-4">
+            <p class="text-start">Published on: {{ keep.createdAt }} </p>
+          </div>
+          <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">Close</button>
         </div>
         
       </div>

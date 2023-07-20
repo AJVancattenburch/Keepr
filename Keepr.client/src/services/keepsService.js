@@ -8,7 +8,13 @@ class KeepsService {
   async getAllKeeps() {
     const res = await api.get('api/keeps')
     AppState.keeps = res.data.map(k => new Keep(k))
-    logger.log(AppState.keeps)
+    logger.log('[ALL KEEPS] =>', AppState.keeps)
+  }
+
+  async getMyKeeps(accountId) {
+    const res = await api.get(`api/profiles/${accountId}/keeps`)
+    AppState.myKeeps = res.data.map(k => new Keep(k))
+    logger.log('[MY KEEPS] =>', AppState.myKeeps)
   }
 
   async getKeepById(keepId) {
@@ -16,7 +22,13 @@ class KeepsService {
     AppState.activeKeep = res.data
     AppState.activeKeep = AppState.keeps.find(k => k.id == keepId)
     AppState.activeKeep.views++
-    logger.log('[ACTIVE KEEP SELECTED] =>', AppState.activeKeep)
+    logger.log('[ACTIVE KEEP] =>', AppState.activeKeep)
+  }
+
+  async getKeepsByProfileId(profileId) {
+    const res = await api.get(`api/profiles/${profileId}/keeps`)
+    AppState.userKeeps = res.data.map(k => new Keep(k))
+    logger.log('[ACTIVE PROFILE PUBLIC KEEPS] =>', AppState.userKeeps)
   }
 
   async createKeep(newKeep) {

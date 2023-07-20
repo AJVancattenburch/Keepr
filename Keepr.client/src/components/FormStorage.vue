@@ -1,6 +1,6 @@
 <template>
-
-  <div class=" container-fluid section-container section-container-bg shadow elevation-5">
+  <div></div>
+  <!-- <div class=" container-fluid section-container section-container-bg shadow elevation-5">
     <div class="container">
       <div class="row">
         <div class="col-md-12 section-description wow fadeIn">
@@ -11,9 +11,9 @@
         <div class="row">
           <div class="col-md-12 form-3-box text-center wow fadeInUp">
 
-            <form action="" method="post">
+            <form action="" method="post"> -->
               <!-- Current Occupation  -->
-              <fieldset class="form-group p-3">
+              <!-- <fieldset class="form-group p-3">
                 <legend class="d-flex justify-content-center bg-dark px-2">Name</legend>
                 <div class="form-group text-left">
                   <label for="job-title">Name</label>
@@ -27,9 +27,9 @@
                   <label for="salary">Salary:</label>
                   <input type="text" class="form-control salary" id="salary" placeholder="Salary..." name="salary">
                 </div>
-              </fieldset>
+              </fieldset> -->
               <!-- Your Address  -->
-              <fieldset class="form-group p-3">
+              <!-- <fieldset class="form-group p-3">
                 <legend class="w-auto px-2">Your Address</legend>
                 <div class="form-group text-left">
                   <label for="address">Address:</label>
@@ -47,9 +47,9 @@
                   <label for="state">State:</label>
                   <input type="text" class="form-control state" id="state" placeholder="State..." name="state">
                 </div>
-              </fieldset>
+              </fieldset> -->
               <!-- Job Preferences  -->
-              <fieldset class="form-group p-3">
+              <!-- <fieldset class="form-group p-3">
                 <legend class="w-auto px-2">Job Preferences</legend>
                 <div class="form-group text-left">
                   <label for="preferences">Preferences:</label>
@@ -59,9 +59,9 @@
                   <label for="new-salary">New salary:</label>
                   <input type="text" class="form-control new-salary" id="new-salary" placeholder="New salary..." name="new-salary">
                 </div>
-              </fieldset>
+              </fieldset> -->
               <!-- Submit Button  -->
-              <div class="form-group row">
+              <!-- <div class="form-group row">
                 <div class="col">
                     <button type="submit" class="btn btn-primary submit-btn">Update Account</button>
                 </div>
@@ -71,6 +71,6 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
 </template>

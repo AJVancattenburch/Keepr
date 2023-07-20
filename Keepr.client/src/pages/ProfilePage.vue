@@ -2,7 +2,7 @@
 <section v-if="profile" :key="profile?.id" class="container-fluid">
 
   <div>
-    <div class="row cover-img" :style="{ backgroundImage: `url(${profile.picture})` }">
+    <div class="row cover-img" :style="{ backgroundImage: `url(${profile.coverImg})` }">
       <div class="card d-flex flex-row mx-auto" style="width: 70%; height: 70%; opacity: .92;">
         <div class="col-4">
           <img class="profile-img m-0"
@@ -21,49 +21,69 @@
     </div>
   </div>
 
-
-
-
-
-
-
-
-
-
-
-
-  <section class="row" style="overflow-x: hidden;">
-    <h2 class="carousel__title mt-3 text-center text-uppercase"> {{ profile.name }}'s keeps </h2>
+  <section v-if="profile" :key="profile?.id" class="row" style="overflow-x: hidden;">
+    <h2 class="carousel__title mt-3 text-center text-uppercase"> My Vaults </h2>
     <div class="col-12 m-auto bg-dark justify-content-center align-items-center shadow-lg elevation-5">
-      <Carousel ref="myCarousel" :itemsToShow="3.95" :wrapAround="true" :transition="500" class="mt-5">
-        <Slide v-for="slide in carouselKeeps" :key="slide" class="">
-            <div class="carousel__card bg-transparent" style="">
-              <div class="carousel__item">
-                <img v-if="carouselKeeps" @click="getKeepById(slide.id)" data-bs-target="#detailsModal" :src="slide.img" class="card-img-top selectable pt-5" :alt="slide.name">
-                <h3 class="card-title"> {{ slide.name }} </h3>
-                <div class="card-body mb-4">
-                  <p class="card-text"> {{ slide.description.split(' ').splice(0, 9).join(' ') }}... </p>
+      <Carousel 
+        ref="myCarousel" 
+        :itemsToShow="3.95" 
+        :wrapAround="true" 
+        :transition="500" 
+        class="mt-3">
+          <Slide 
+            v-for="slide in carouselVaults" 
+            :key="slide" 
+            class=" ">
+                <div class="carousel__card bg-transparent" style="">
+                  <div class="carousel__item">
+                    <router-link :to="{ name: 'VaultDetails', params: { vaultId: slide.id }}">
+                      <img 
+                        v-if="carouselVaults" 
+                        @click="getVaultById(slide.id)" 
+                        :src="slide.img" 
+                        class="carousel__img card-img-top selectable pt-1" 
+                        :alt="slide.name">
+                    </router-link>
+                    <div class="my-3 mb-4 rounded-5" style="">
+                      <div class="content__box p-3">
+                        <h3 class="card-title"> {{ slide.name }} </h3>
+                        <div class="card-body mb-4">
+                          <p class="card-text"> {{ slide.description.split(' ').splice(0, 9).join(' ') }}... </p>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-        </Slide>
+          </Slide>
       </Carousel>
     </div>
     <!-- NOTE - Accent Row between Carousel & Previous / Next Slide Buttons -->
     <div class="col-12 accent-row d-flex mb-5 pb-2 pt-2" style="height: 4rem;">
     <!-- NOTE - Previous / Next Slide Buttons -->
       <div class="col-6 col-md-6 d-flex justify-content-center">
-        <p role="button" class="carousel__btn me-5" style="width: 10vw;" @click="myCarousel.prev()">
+        <p 
+          role="button" 
+          class="carousel__btn me-5" 
+          style="width: 10vw;" 
+          @click="myCarousel.prev()">
           <i title="Previous" class="mdi mdi-arrow-left-circle fs-1"></i>
         </p>
       </div>
       <div class="col-6 col-md-6 d-flex justify-content-center">
-        <p role="button" class="carousel__btn ms-5" style="width: 10vw;" @click="myCarousel.next()">
+        <p 
+          role="button" 
+          class="carousel__btn ms-5" 
+          style="width: 10vw;" 
+          @click="myCarousel.next()">
           <i title="Next" class="mdi mdi-arrow-right-circle fs-1"></i>
         </p>
       </div>
     </div>
   </section>
+
+  <div v-for="k in keeps" :key="k.id" class="col-4">
+    <KeepCard :keep="k" />
+  </div>
 
 </section>
 
@@ -81,6 +101,8 @@ import { profilesService } from "../services/ProfilesService.js"
 import { keepsService } from "../services/KeepsService.js"
 import { Modal } from "bootstrap"
 import { Carousel, Slide } from 'vue3-carousel'
+import KeepCard from '../components/KeepCard.vue'
+import { vaultsService } from "../services/VaultsService.js"
 
 export default {
 
@@ -98,22 +120,58 @@ export default {
         Pop.error(error.message, 'Error')
       }
     }
-    
+
+    async function getKeepsByProfileId() {
+      try {
+        const profileId = route.params.profileId
+        await keepsService.getKeepsByProfileId(profileId)
+      } catch (error) {
+        logger.log('{ProfilePage} getKeepsByProfileId() error: ', error)
+        Pop.error(error.message, 'Error')
+      }
+    }
+
+    async function getVaultsByProfileId() {
+      try {
+        const profileId = route.params.profileId
+        await vaultsService.getVaultsByProfileId(profileId)
+      } catch (error) {
+        logger.log('{ProfilePage} getVaultsByProfileId() error: ', error)
+        Pop.error(error.message, 'Error')
+      }
+    }
+
+    async function getVaultById() {
+      try {
+        const vaultId = route.params.vaultId
+        logger.log('[ACCOUNT PAGE] => getVaultById() vaultId: ', vaultId)
+        await vaultsService.getVaultById(vaultId)
+      } catch (error) {
+        Pop.error(error.message, 'Error')
+        logger.log(error)
+      }
+    }
 
     onMounted(() => {
       getProfileById()
+      getKeepsByProfileId()
+      getVaultsByProfileId()
     })
 
     return {
       
+      getVaultById,
       // route,
       myCarousel,
-
+      account: computed(() => AppState.account),
       keep: computed(() => AppState.activeKeep),
+      keeps: computed(() => AppState.userKeeps),
+      vault: computed(() => AppState.userVaults),
       profile: computed(() => AppState.activeProfile),
-      carouselKeeps: computed(() => AppState.keeps.sort(
-        (a, b) => b.views - a.views)
-        ),
+
+      carouselVaults: computed(() => AppState.userVaults.sort(
+        (a, b) => b.views - a.views
+        )),
 
       async getKeepById(keepId) {
         try {
@@ -125,12 +183,12 @@ export default {
           logger.log(error)
         }
       },
-
     }
   },
   components: {
     Carousel,
-    Slide
+    Slide,
+    KeepCard,
   },
 }
 
@@ -181,7 +239,6 @@ export default {
 }
 
 .carousel * {
-  
   overflow: hidden;
   text-align: center;
 }

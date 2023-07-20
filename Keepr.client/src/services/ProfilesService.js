@@ -8,6 +8,12 @@ class ProfilesService {
     AppState.activeProfile = res.data
     logger.log(AppState.activeProfile)
   }
+
+  async getKeepsByProfileId(profileId) {
+    const res = await api.get(`api/profiles/${profileId}/keeps`)
+    AppState.userKeeps = res.data
+    logger.log(AppState.userKeeps)
+  }
 }
 
 export const profilesService = new ProfilesService()

@@ -2,7 +2,7 @@
     
   <form v-if="keeps" class="form__contact scrollable" @submit.prevent="createKeep">
     <fieldset style="overflow-y: auto; overflow-x: hidden;">
-      <div class="offcanvas-body row justify-content-center align-items-center pt-5 scrollable" style="overflow-x: hidden;">
+      <div class="row justify-content-center align-items-center pt-5 scrollable" style="overflow-y: auto; overflow-x: hidden; padding-bottom: 5rem;">
           <p class="canvas-header pt-5">Create a New Keep!</p>
           <!-- <div class="col-9">
             <label for="category" class="mt-5">Select a Category</label>
@@ -32,10 +32,10 @@
             <div class="d-flex flex-column justify-content-center">
               <p class="text-muted text mb-0 recipe-text">Image Preview</p>
               <div v-if="previewKeepImg">
-                <img :src="previewKeepImg" class="recipe-img" alt="The selected photo for your recipe">
+                <img :src="previewKeepImg" class="recipe-img" :alt="`Preview Image for ${editable.name} failed to load...`">
               </div>
               <div v-else>
-                <img src="//placehold.it/300x250" class="recipe-img" alt="The selected photo for your recipe">
+                <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" class="recipe-img" :alt="`Placeholder Image for ${editable.name} failed to load...`">
               </div>
             </div>
           </div>
@@ -176,7 +176,7 @@ $line-height: 40px;
 body {
   width: 100vw;
   height: 100%; 
-  padding-bottom: 50px;
+  padding-bottom: 150px;
   overflow-x: hidden; 
   display: flex;
   align-items: center;

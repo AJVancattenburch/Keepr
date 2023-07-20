@@ -8,23 +8,23 @@
         </div>
       </router-link>
 
-      <div class="text-center col-2">
-        <button class="button" data-bs-target="#createKeepForm" data-bs-toggle="offcanvas" aria-controls="createKeepForm">Create Keep</button>
-      </div>
-      <div class="col-2 ps-5">
-        <button class="button" data-bs-target="#createVaultForm" data-bs-toggle="offcanvas" aria-controls="createVaultForm">Create Vault</button>
-      </div>
-
-        <!-- ANCHOR - Offcanvas Button for opening the 'SearchRecipesOffcanvas.vue' Component [Located in 'App.vue' - Line 18] -->
-      <div class="d-flex justify-content-end pe-5">
-        <div class="col-7 me-5">
-          <img title="Search Recipes..." src="src/assets/img/search-posts-icon.png" class="search-icon justify-content-end align-items-center img-fluid" style="z-index: 1; height: 45px; background-size: cover; object-fit: cover;" role="button" data-bs-toggle="offcanvas" data-bs-target="#myOffcanvas" aria-controls="myOffcanvas">
+        <div v-if="user.isAuthenticated" class="col-2 justify-content-start">
+          <button class="button" data-bs-target="#createKeepForm" data-bs-toggle="offcanvas" aria-controls="createKeepForm">Create Keep</button>
         </div>
-      </div>
+        <div v-if="user.isAuthenticated" class="col-2 justify-content-end">
+          <button class="button" data-bs-target="#createVaultForm" data-bs-toggle="offcanvas" aria-controls="createVaultForm">Create Vault</button>
+        </div>
+
+        <!-- ANCHOR - Offcanvas Button for opening the 'SearchKeepsOffcanvas.vue' Component -->
+      <!-- <div class="d-flex justify-content-end pe-5">
+        <div class="col-7 me-5">
+          <img title="Search Keeps..." src="src/assets/img/search-posts-icon.png" class="search-icon justify-content-end align-items-center img-fluid" style="z-index: 1; height: 45px; background-size: cover; object-fit: cover;" role="button" data-bs-toggle="offcanvas" data-bs-target="#myOffcanvas" aria-controls="myOffcanvas">
+        </div>
+      </div> -->
       
       <!-- 
       <form class="d-flex">
-        <input type="text" class="form-control me-2" placeholder="Search Recipes..." aria-label="Search" v-model="editable">
+        <input type="text" class="form-control me-2" placeholder="Search Keeps..." aria-label="Search" v-model="editable">
         <button @click="" class="btn btn-outline-light mx-2" style="color: aliceblue; text-shadow: 1px 1px 1px black; box-shadow: 1px 1px 3px black; background-color: #f1ff55b8;" type="submit">Search</button>
       </form> 
       -->
@@ -33,34 +33,12 @@
 
   </nav>
 
-  <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
-      </div>
-    </router-link>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-      aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
-        <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
-          </router-link>
-        </li>
-      </ul>
-      LOGIN COMPONENT HERE
-      
-    </div>
-  </nav> -->
 </template>
 
 <script>
 import Login from './Login.vue';
 import { logger } from '../utils/Logger'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { AppState } from '../AppState'
 import { keepsService } from '../services/KeepsService'
 import Pop from "../utils/Pop"
@@ -73,6 +51,7 @@ export default {
     return {
 
       editable,
+      user: computed(() => AppState.user),
 
       async searchKeeps() {
         try {
@@ -178,8 +157,8 @@ a:hover {
   height: 45px;
   overflow: hidden;
   padding: 12px 24px;
-  position: absolute;
-  top: .5rem;
+  display: flex;
+  align-items: center;
   text-decoration: none;
   transition: 0.2s;
   

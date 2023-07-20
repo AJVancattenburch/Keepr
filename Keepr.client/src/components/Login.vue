@@ -8,7 +8,7 @@
       <div class="dropdown my-lg-0">
         <div type="button" class="border-0 selectable no-select rounded-circle" data-bs-toggle="dropdown" aria-expanded="false">
           <div v-if="account.name || user.name">
-            <i :title="account.name || user.name" height="40" class="mdi mdi-account-badge fs-1" style="color: #07f71f !important; text-shadow: 1px 1px 1px #000; filter: brightness(1);" ></i>
+            <i :title="account.name || user.name" height="40" class="mdi mdi-account-badge fs-1" style="color: #227f2b !important; text-shadow: 1.5px 1.5px 1px #160101; filter: brightness(1);" ></i>
           </div>
         </div>
         <div class="dropdown-menu dropdown-menu-lg-end dropdown-menu-start p-0" aria-labelledby="authDropdown">

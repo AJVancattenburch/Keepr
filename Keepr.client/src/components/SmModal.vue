@@ -1,7 +1,8 @@
 <template>
 
   <div class="modal fade" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-scrollable">
+
       <slot></slot>
       <!-- <div class="modal-content">
         <div class="modal-header">
@@ -17,6 +18,8 @@
         </div>
       </div> -->
     </div>
-  </div>    
+  </div>
+
+
 
 </template>

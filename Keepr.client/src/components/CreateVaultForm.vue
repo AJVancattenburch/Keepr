@@ -35,7 +35,7 @@
                 <img :src="previewVaultImg" class="recipe-img" alt="The selected photo for your recipe">
               </div>
               <div v-else>
-                <img src="//placehold.it/300x250" class="recipe-img" alt="The selected photo for your recipe">
+                <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" class="recipe-img" alt="The selected photo for your recipe">
               </div>
             </div>
           </div>

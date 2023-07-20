@@ -2,7 +2,7 @@
 
   <div class="container-fluid">    
     <section class="row mt-3 overflow-hidden">
-      <div class="masonry-with-columns" id="masonry-with-columns">
+      <div class="masonry-columns" id="masonry-with-columns">
         <div v-for="(keep, index) in keeps" :key="index" class="">
           <KeepCard :keep="keep" class=""/>
         </div>
@@ -74,7 +74,7 @@ export default {
 
 
 
-.masonry-with-columns {
+.masonry-columns {
   columns: 4 200px;
   column-gap: 2rem;
   padding-left: 3em;
@@ -107,7 +107,7 @@ export default {
 
 
 @media screen and (max-width: 768px) {
-  .masonry-with-columns {
+  .masonry-columns {
     columns: 2 100px;
     padding-left: 1em;
     padding-right: 1em;

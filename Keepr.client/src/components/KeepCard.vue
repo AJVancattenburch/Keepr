@@ -8,14 +8,14 @@
         :alt="keep.creator.name" :title="keep.creator.name">
       </router-link>
     </div>
-    <div @click="getKeepById(keep.id)" data-bs-target="#detailsModal">
+    <div @click="getKeepById(keep?.id)" data-bs-target="#detailsModal" data-bs-toggle="modal">
       <img :src="keep.img" :alt="keep.name" class="keep-img">
     </div>
     <div v-if="keep.creator.id == account.id">
-    </div>
-    <div class="d-flex justify-content-between">
-      <!-- <button class="btn btn-success" style="position: relative; bottom: 3rem; left: .5rem;" @click="editKeep(keep.id)">Edit</button> -->
-      <i v-if="keep" :key="keep?.id" title="Delete Keep?" class="delete-icon mdi mdi-file-document-remove fs-2" style="" @click="deleteKeep(keep?.id)"></i>
+      <div class="d-flex justify-content-between">
+        <!-- <button class="btn btn-success" style="position: relative; bottom: 3rem; left: .5rem;" @click="editKeep(keep.id)">Edit</button> -->
+        <i v-if="keep" :key="keep.id" title="Delete Keep?" class="delete-icon mdi mdi-file-document-remove fs-2" style="" @click="deleteKeep(keep.id)"></i>
+      </div>
     </div>
   </div>
 
@@ -65,6 +65,7 @@ export default {
           if (await Pop.confirm(`Are you sure you want to delete ${props.keep.name}?`) && keepId == props.keep.id) {
              keepsService.deleteKeep(keepId)
           }
+          Pop.toast(`Deleted ${props.keep.name}`, 'success', 'top-end', 1000)
         } catch (error) {
           Pop.error(error.message, 'Error')
           logger.log(error)
