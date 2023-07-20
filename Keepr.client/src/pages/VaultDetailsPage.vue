@@ -23,7 +23,9 @@
     </div>
     <div class="row">
       <div v-for="k in vaultKeep" :key="k?.id" class="col-4">
-        <p> {{ keep }} </p>
+        <p> {{ vault.name }} </p>
+        <p> {{ vault.description }} </p>
+        <img :src="vault.img" class="img-fluid" :alt="`Vault Image for ${vault.name}`" />
       </div>
     </div>
   </section>
@@ -54,6 +56,7 @@ export default {
               await vaultsService.getVaultById(route.params.vaultId)
               await vaultKeepsService.getKeepsByVaultId(route.params.vaultId)
               // Pop.toast(`Welcome to ${AppState.account.name}'s vault!`, 'success', 'top-end', 3000)
+              AppState.vaultKeeps.forEach(k => logger.log(k))
             } catch (error) {
               router.push({ name: 'Home' })
               Pop.toast("[RESTRICTED] UNAUTHORIZED!", 'error', 'top-end', 3000)
