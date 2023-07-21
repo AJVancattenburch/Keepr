@@ -27,11 +27,11 @@
             <p class="text-start">Published on: {{ keep.createdAt }} </p>
           </div>
         </div>
-        <div v-if="keep && account.id == keep.creator.id" :key="keep?.id" class="row">
+        <div class="row">
           <!-- <i :title="`Add '${keep.name}' to a new Vault?'`" class="mdi mdi-plus-circle dropdown-toggle fs-2 text-primary" style="">
           </i>  -->
           <div class="drop-up">
-            <form action="" @submit.prevent="addKeepToVault()">
+            <form v-if="route.name != 'VaultDetails'" action="" @submit.prevent="addKeepToVault()">
               <div class="row">
                 <div class="col-6 d-flex h-75 pt-4">
                   <select v-model="selectedOption">
@@ -39,16 +39,17 @@
                     <option class="text-center" v-for="v in vaults" :key="v?.id" :value="v?.id" :style="{ backgroundImage: `url(${v.img})` }"> {{ v.name }}</option>
                   </select>
                 </div>
-                <div v-if="!vaultKeep" class="col-6 d-flex justify-content-end">
+                <div class="col-6 d-flex justify-content-end">
                   <button type="submit" class="btn btn-primary mt-3" data-bs-dismiss="modal">Add to Vault</button> 
                 </div>
               </div>
               </form>
-              <div v-if="vaultKeep" class="col-12 d-flex justify-content-end" style="position: relative; bottom: 2rem;">
+              <div v-if="vaultKeep && route.name == 'VaultDetails'" class="col-12 d-flex justify-content-end" style="position: relative; bottom: 2rem;">
                 <div class="">
                   <i title="Remove Keep From Vault?" class="delete-icon mdi mdi-file-document-remove text-danger fs-2" style="" @click="removeKeepFromVault()"></i>
                 </div>
               </div>
+              <div v-else-if="route.name != 'VaultDetails'"></div>
             </div>
           </div>
         </div>
@@ -64,7 +65,7 @@ import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
 import { vaultKeepsService } from "../services/VaultKeepsService.js";
 import { keepsService } from "../services/KeepsService.js";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { router } from "../router.js";
 import { Modal } from "bootstrap";
 
@@ -80,12 +81,15 @@ export default {
   setup() {
 
     const route = useRoute()
+    const router = useRouter()
 
     const selectedOption = ref({})
     
 
     return {
-
+      
+      route,
+      router,
       selectedOption,
 
       keep: computed(() => AppState.activeKeep),
@@ -93,7 +97,7 @@ export default {
       account: computed(() => AppState.account),
       vault: computed(() => AppState.activeVault),
       vaultKeep: computed(() => AppState.vaultHasKeeps),
-
+      
       async addKeepToVault() {
         try {
           await vaultKeepsService.addKeepToVault(selectedOption.value, AppState.activeKeep.id)
@@ -103,17 +107,18 @@ export default {
         }
       },
 
-      async removeKeepFromVault(keepId) {
+      async removeKeepFromVault() {
         try {
+          logger.log('debugger working')
           if (await Pop.confirm("Are you sure you want to remove this keep from your vault?", "You can always add it again later if you change your mind.", "Yes, I'm sure", "warning")) {
-            const vaultKeep = AppState.vaultHasKeeps.find(vk => vk.keepId == keepId)
-            const vaultKeepId = vaultKeep.vaultKeepId
-            await vaultKeepsService.removeKeepFromVault(vaultKeepId, keepId)
-            Pop.toast(`Keep has been removed`, "success", "top")
-            Modal.getOrCreateInstance('#detailsModal').hide()
+          const vaultKeep = AppState.vaultHasKeeps.find(vk => vk.id == AppState.activeKeep.id)
+          const vaultKeepId = vaultKeep.vaultKeepId
+          await vaultKeepsService.removeKeepFromVault(vaultKeepId)
+          Pop.toast(`Keep has been removed`, "success", "top")
+          window.location.reload()
+          // Modal.getOrCreateInstance('#detailsModal').hide()
           }
         } catch (error) {
-          router.push({ name: 'Home' })
           logger.error(error)
           Pop.error(error.message)
         }

@@ -12,7 +12,7 @@
       <h1 class="my-name text-center p-3">Welcome {{ account.name }}</h1>
       <div class="row flex-row justify-content-center">
         <div class="col-6">
-          <h2 class="bio-title text-center py-2" style="">My Bio:</h2>
+          <h2 class="bio-title text-center pt-4" style="">My Bio:</h2>
           <p class="bio-container">{{ account.bio }}</p>
         </div>
       </div>
@@ -28,23 +28,23 @@
     </div> -->
 
     <section class="row" style="overflow-x: hidden;">
-      <h2 class="carousel__title py-3 mt-3 text-center text-uppercase"> My Vaults: {{ vaultCount}} </h2>
+      <h4 class="carousel__title py-3 mt-3 text-center text-uppercase"> My Vaults: {{ vaultCount}} </h4>
       <div class="col-12 m-auto bg-dark justify-content-center align-items-center shadow-lg elevation-5">
-        <Carousel ref="myCarousel" :itemsToShow="3.95" :wrapAround="true" :transition="500" class="mt-3">
+        <Carousel ref="myCarousel" :itemsToShow="3.95" :wrapAround="true" :transition="500" class="carousel-items-to-show mt-3">
           <Slide v-for="slide in carouselVaults" :key="slide" class=" ">
-              <div class="carousel__card bg-transparent" style="">
+              <div class="carousel__card bg-transparent" style="height: 100%;">
                 <div class="carousel__item">
-                  <div v-if="account.id == slide.creator.id" class="d-flex justify-content-end">
+                  <div v-if="account.id == slide.creatorId" class="d-flex justify-content-end">
                     <i v-if="slide" :key="slide.id" title="Delete Vault?" class="delete-icon mdi mdi-file-document-remove selectable fs-2" style="" @click="deleteVault(slide.id)"></i>
                   </div>
                   <router-link :to="{ name: 'VaultDetails', params: { vaultId: slide.id }}">
-                  <img v-if="carouselVaults" @click="getVaultById(slide.id)" :src="slide.img" class="carousel__img card-img-top selectable pt-1" :alt="slide.name">
+                    <img :title="`Go to the Vault Page for '${slide.name}'`" v-if="carouselVaults" @click="getVaultById(slide.id)" :src="slide.img" class="carousel__img card-img-top selectable pt-1" :alt="slide.name">
                   </router-link>
                   <div class="my-3 mb-4 rounded-5" style="">
-                    <div class="content__box p-3">
+                    <div class="content__box pb-3">
                       <h3 class="card-title"> {{ slide.name }} </h3>
-                      <div class="card-body mb-4">
-                        <p class="card-text"> {{ slide.description.split(' ').splice(0, 9).join(' ') }}... </p>
+                      <div class="card-body">
+                        <p class="card-text"> {{ slide.description.split(' ').splice(0, 3).join(' ') }}... </p>
                     </div>
                   </div>
                   </div>
@@ -111,8 +111,7 @@ export default {
 
     async function getMyVaults() {
       try {
-        const accountId = AppState.account.id
-        await vaultsService.getMyVaults(accountId)
+        await vaultsService.getMyVaults()
       } catch (error) {
         Pop.error(error.message, 'Error')
         logger.log(error)
@@ -242,8 +241,8 @@ export default {
   font-family: 'Ubuntu', sans-serif;
   font-size: 3rem;
   font-weight: 700;
-  color: #205bff;
-  text-shadow: 1px 1px 4px #fe7c02;
+  color: #002fb2;
+  text-shadow: 2px 2px 2px #ffaa5a;
   animation: slideThenFadeIn 3s ease-in-out;
 }
 
@@ -263,8 +262,9 @@ export default {
 }
 
 .bio-title {
-  color: #205bff;
-  text-shadow: 1px 1px 4px #fe7c02;
+  color: #002fb2;
+  text-shadow: 1.5px 1.5px 2px #ffaa5a;
+  padding-bottom: 2rem;
 }
 
 .bio-container {
@@ -279,11 +279,11 @@ export default {
   margin-left: -1rem;
   margin-bottom: 5rem;
   text-align: center;
-  background: radial-gradient(ellipse at center, #51fec14d 0%, 
-                                                 #1c8ffa3e 100%);
+  background: radial-gradient(ellipse at center, #f7fbffd5 0%, 
+                                                 #95ffda63 100%);
   box-shadow: inset 3px 3px 10px 3px #222629d7, 
               inset -3px -3px 10px 3px #222629c9, 
-                     3px 3px 10px 3px #bef5f9c9, 
+                     3px 3px 10px 3px #bef5f9e6, 
                     -3px -3px 10px 3px #bef5f9c9;
   border-radius: .5rem;
 }
@@ -314,7 +314,7 @@ export default {
 }
 
 .carousel__item {
-  height: 65vh;
+  height: 45vh;
   margin-bottom: 1rem;
 }
 
@@ -333,11 +333,16 @@ export default {
 
 .card-title {
   padding-top: 1rem;
+  font-size: 1.25rem;
   padding-bottom: 1rem;
+  height: 75px;
 }
 
 .carousel__img {
   border-radius: 1rem;
+  height: 25vh;
+  object-fit: cover;
+  object-position: center;
 }
 
 .content__box {
@@ -375,6 +380,27 @@ export default {
     padding-right: 1em;
     margin-bottom: 3em;
   }
+
+  .carousel-items-to-show {
+    width: 225vw;
+    object-fit: contain;
+  }
+
+  .carousel__title, .keep-count {
+    font-size: 2rem;
+  }
+
+  .my-name {
+    font-size: 2rem;
+  }
+
+  .bio-container {
+    width: 75vw;
+    height: 20vh;
+    margin-right: auto;
+    margin-left: -3.5rem;
+  }
+  
 }
 
 </style>

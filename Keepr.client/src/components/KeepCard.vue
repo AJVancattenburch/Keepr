@@ -260,17 +260,17 @@ export default {
 
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (max-width: 1200px) {
   .keep-title {
     padding-bottom: .4em;
-    font-size: 2rem;
+    font-size: 1.25rem;
     box-sizing: border-box;
   }
 
   .title-container img {
-    margin-bottom: 3rem;
-    width: 3rem;
-    height: 3rem;
+    margin-top: 1rem;
+    width: 2rem;
+    height: 2rem;
   }
 }
 

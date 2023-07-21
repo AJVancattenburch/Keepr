@@ -12,8 +12,8 @@ class VaultsService {
     logger.log('[NEW VAULT CREATED] =>', res.data)
   }
 
-  async getMyVaults(accountId) {
-    const res = await api.get(`/api/profiles/${accountId}/vaults`)
+  async getMyVaults() {
+    const res = await api.get(`/account/vaults`)
     AppState.myVaults = res.data.map(v => new Vault(v))
     logger.log('[MY VAULTS] =>', AppState.myVaults)
   }

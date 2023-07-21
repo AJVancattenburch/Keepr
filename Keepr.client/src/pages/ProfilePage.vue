@@ -23,7 +23,7 @@
     </div>
   </div>
 
-  <section v-if="profile && user.isAuthenticated" :key="profile?.id" class="row" style="overflow-x: hidden;">
+  <section v-if="profile" :key="profile?.id" class="row" style="overflow-x: hidden;">
     <h2 class="carousel__title mt-3 text-center text-uppercase"> {{ profile.name }}'s Vaults </h2>
     <div class="col-12 m-auto bg-dark justify-content-center align-items-center shadow-lg elevation-5">
       <Carousel 
@@ -58,19 +58,17 @@
                 </div>
                 <div v-else class="carousel__card bg-transparent" style="">
                   <div class="carousel__item">
-                    <router-link :to="{ name: 'Home' }">
                       <img 
                         v-if="carouselVaults" 
                         @click="getVaultById(slide.id)" 
                         :src="slide.img" 
-                        class="carousel__img carousel__img__private card-img-top selectable pt-1" 
+                        class="carousel__img card-img-top selectable pt-1" 
                         :alt="slide.name">
-                    </router-link>
-                    <div class="my-3 mb-4 rounded-5" style="">
-                      <div class="content__box p-3">
+                    <div class="my-5 mb-4 rounded-5" style="">
+                      <div class="content__box pt-3" style="height: 1px !important;">
                         <h3 class="card-title"> {{ slide.name }} </h3>
-                        <div class="card-body mb-4">
-                          <p class="card-text"> {{ slide.description.split(' ').splice(0, 9).join(' ') }}... </p>
+                        <div class="card-body">
+                          <p class="card-text"> {{ slide.description.split(' ').splice(0, 20).join(' ') }}... </p>
                       </div>
                     </div>
                     </div>
@@ -186,7 +184,7 @@ export default {
     return {
       
       getVaultById,
-      // route,
+      route,
       myCarousel,
       account: computed(() => AppState.account),
       user: computed(() => AppState.user),
@@ -313,7 +311,7 @@ export default {
 }
 
 .carousel * {
-  overflow: hidden;
+  overflow: auto;
   text-align: center;
 }
 
@@ -333,7 +331,7 @@ export default {
   width: 100%;
   height: 75%;
   background-color: #000;
-  border-radius: .25rem;
+  border-radius: .5rem;
   box-shadow: 0 0 10px 10px #2260777c;
 }
 
@@ -342,7 +340,7 @@ img.card-img-top {
   aspect-ratio: 1/1;
   object-fit: cover;
   object-position: center;
-  border-radius: .25rem;
+  border-radius: .5rem;
 }
 
 .carousel__img__private {
@@ -460,6 +458,11 @@ img.card-img-top {
     padding-left: 1em;
     padding-right: 1em;
     margin-bottom: 3em;
+  }
+
+  .profile-name-box {
+    font-size: 1.25rem;
+    flex-direction: column;
   }
 }
 
