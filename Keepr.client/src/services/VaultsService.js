@@ -29,9 +29,11 @@ class VaultsService {
     logger.log('[ACTIVE PROFILE PUBLIC VAULTS] =>', AppState.userVaults)
   }
 
-
-
-
+  async deleteVault(vaultId) {
+    await api.delete(`api/vaults/${vaultId}`)
+    const foundVault = AppState.myVaults.find(v => v.id == vaultId)
+    AppState.myVaults.splice(foundVault, 1)
+  }
 }
 
 export const vaultsService = new VaultsService()

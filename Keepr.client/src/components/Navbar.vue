@@ -132,9 +132,9 @@ a:hover {
 }
 
 .bg-nav {
-  background: linear-gradient(90deg, #517df4 0%,
-                                     #ffb05b 80%,
-                                     #fdd957 85%);
+  background: linear-gradient(90deg, #1b79f3 0%,
+                                      #a9f1db 30%,
+                                      #ffb05b 85%);
   box-shadow: 0px 0px 10px #517df4;
 }
 

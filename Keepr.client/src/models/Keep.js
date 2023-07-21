@@ -18,6 +18,7 @@ export class Keep {
     this.description = data.description
     this.img = data.img
     this.views = data.views
+    this.kept = data.kept
     this.creatorId = data.creatorId
     this.creator = data.creator || new Profile(data.creator)
     this.createdAt = formatTime(new Date(data.createdAt))

@@ -72,7 +72,13 @@ export default {
 
 <style scoped lang="scss">
 
-
+.container-fluid {
+  height: 100%;
+  background: linear-gradient(90deg, #d6dce2d9 0%,
+                                      transparent 30%,
+                                      #e5f3f76f 85%);
+  box-shadow: 0 0 10px 10px #271f1841 inset;
+}
 
 .masonry-columns {
   columns: 4 200px;

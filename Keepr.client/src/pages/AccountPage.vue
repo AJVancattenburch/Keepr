@@ -12,6 +12,7 @@
       <h1 class="my-name text-center p-3">Welcome {{ account.name }}</h1>
       <div class="row flex-row justify-content-center">
         <div class="col-6">
+          <h2 class="bio-title text-center py-2" style="">My Bio:</h2>
           <p class="bio-container">{{ account.bio }}</p>
         </div>
       </div>
@@ -27,12 +28,15 @@
     </div> -->
 
     <section class="row" style="overflow-x: hidden;">
-      <h2 class="carousel__title mt-3 text-center text-uppercase"> My Vaults </h2>
+      <h2 class="carousel__title py-3 mt-3 text-center text-uppercase"> My Vaults: {{ vaultCount}} </h2>
       <div class="col-12 m-auto bg-dark justify-content-center align-items-center shadow-lg elevation-5">
         <Carousel ref="myCarousel" :itemsToShow="3.95" :wrapAround="true" :transition="500" class="mt-3">
           <Slide v-for="slide in carouselVaults" :key="slide" class=" ">
               <div class="carousel__card bg-transparent" style="">
                 <div class="carousel__item">
+                  <div v-if="account.id == slide.creator.id" class="d-flex justify-content-end">
+                    <i v-if="slide" :key="slide.id" title="Delete Vault?" class="delete-icon mdi mdi-file-document-remove selectable fs-2" style="" @click="deleteVault(slide.id)"></i>
+                  </div>
                   <router-link :to="{ name: 'VaultDetails', params: { vaultId: slide.id }}">
                   <img v-if="carouselVaults" @click="getVaultById(slide.id)" :src="slide.img" class="carousel__img card-img-top selectable pt-1" :alt="slide.name">
                   </router-link>
@@ -65,13 +69,14 @@
       </div>
     </section>
 
-    <!-- <div v-if="keeps" :key="keeps?.id" class="row">
-      <div class="col-12">
-        <h1 class="text-center">Keeps</h1>
-      </div> -->
-      <div v-for="k in keeps" :key="k.id" class="col-4">
-        <KeepCard :keep="k" />
+    <div class="row">
+      <h2 class="keep-count mt-3 text-center text-uppercase py-4"> My Keeps: {{ keepCount}} </h2>
+    </div>
+    <div class="masonry-columns">
+      <div v-for="k in keeps" :key="k.id" class="">
+        <KeepCard :keep="k" class=""/>
       </div>
+    </div>
 
 
   </section>
@@ -123,8 +128,21 @@ export default {
             (a, b) => b.createdAt - a.createdAt
           )
         }
+
         logger.log('[ACCOUNT PAGE] => getVaultById() vaultId: ', vaultId)
         await vaultsService.getVaultById(vaultId)
+      } catch (error) {
+        Pop.error(error.message, 'Error')
+        logger.log(error)
+      }
+    }
+
+    async function deleteVault(vaultId) {
+      try {
+        if (await Pop.confirm(`Are you sure you want to delete this vault?`)) {
+          await vaultsService.deleteVault(vaultId)
+        }
+          Pop.toast(`${AppState.myVaults.name} has been deleted!`, 'Vault Deleted', 'bg-danger', 'text-light', 'top-end', 2000)
       } catch (error) {
         Pop.error(error.message, 'Error')
         logger.log(error)
@@ -146,16 +164,18 @@ export default {
       getMyKeeps()
     })
 
-
     return {
 
       myCarousel,
 
+      deleteVault,
       getVaultById,
 
       account: computed(() => AppState.account),
-      vault: computed(() => AppState.myVaults),
       user: computed(() => AppState.user),
+      vault: computed(() => AppState.myVaults),
+      keepCount: computed(() => AppState.myKeeps.length),
+      vaultCount: computed(() => AppState.myVaults.length),
 
       carouselVaults: computed(() => AppState.myVaults.sort(
         (a, b) => a.createdAt - b.createdAt
@@ -180,6 +200,16 @@ export default {
 @import url(https://fonts.googleapis.com/css?family=Ubuntu:400,700);
 
 
+.container-fluid {
+  height: 100%;
+  background-color: #0482ffc9;
+  box-shadow: 0 0 10px 10px #271f1841 inset;
+  padding-top: 2rem;
+  padding-left: 1rem;
+  padding-bottom: 5rem !important;
+  padding-right: 2rem;
+}
+
 .cover-img {
   object-fit: cover;
   object-position: center;
@@ -195,7 +225,7 @@ export default {
              -3px -3px 3px white;
   display: flex;
   margin: 0 auto;
-  animation: fadeIn 1s ease-in-out 3s forwards;
+  animation: fadeIn 1s ease-in-out 2s forwards;
   opacity: 0;
 }
 
@@ -232,6 +262,11 @@ export default {
   }
 }
 
+.bio-title {
+  color: #205bff;
+  text-shadow: 1px 1px 4px #fe7c02;
+}
+
 .bio-container {
   font-family: 'Ubuntu', sans-serif;
   font-size: 1.05rem;
@@ -243,6 +278,7 @@ export default {
   padding: 2rem;
   margin-left: -1rem;
   margin-bottom: 5rem;
+  text-align: center;
   background: radial-gradient(ellipse at center, #51fec14d 0%, 
                                                  #1c8ffa3e 100%);
   box-shadow: inset 3px 3px 10px 3px #222629d7, 
@@ -284,7 +320,8 @@ export default {
 
 .carousel__title {
   color: #fff;
-  text-shadow: 1.5px 1.5px 1px #000;
+  font-size: 4rem;
+  text-shadow: 2.5px 2.5px 1px #000;
   background: linear-gradient(145deg, #5cc0fed0, 
                                       #1c8ffab9 100%);
   box-shadow: inset 3px 3px 10px 3px #0482ffc5, 
@@ -306,6 +343,38 @@ export default {
 .content__box {
   background: linear-gradient(145deg, #111927, 
   #1f2f49 100%);
+}
+
+.keep-count {
+  color: #fff;
+  font-size: 4rem;
+  width: 100%;
+  text-shadow: 2.5px 2.5px 1px #000;
+  background: linear-gradient(145deg, #5cc0fe71, 
+                                      #faca1c13 100%);
+  box-shadow: inset 3px 3px 10px 3px #0482ffc5,
+              inset -3px -3px 10px 3px #00a6ffc9,
+                     3px 3px 10px 3px #0482ffc5,
+                    -3px -3px 10px 3px #00a6ffc9;
+  opacity: .9;
+}
+
+.masonry-columns {
+  columns: 4 200px;
+  column-gap: 2rem;
+  padding-left: 3em;
+  padding-right: 3em;
+  padding-top: 1em;
+}
+
+@media screen and (max-width: 768px) {
+  .masonry-columns {
+    width: 40vw;
+    columns: 2 100px;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-bottom: 3em;
+  }
 }
 
 </style>

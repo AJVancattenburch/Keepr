@@ -1,19 +1,22 @@
 <template>
   
   <div class="keep-container">
-    <div class="title-container mt-5">
-      <h5 class="keep-title">{{ keep.name }}</h5>
-      <router-link :to="{name: 'Profile', params: { profileId: keep.creator.id }}" class="selectable">
-      <img :src="keep.creator.picture"
-        :alt="keep.creator.name" :title="keep.creator.name">
-      </router-link>
+    <div class="title-container">
+      <h5 class="col-10 keep-title text-center pe-1">{{ keep.name }}</h5>
+      <div class="d-flex align-items-center col-2">
+        <router-link :to="{name: 'Profile', params: { profileId: keep.creator.id }}" class="selected">
+        <img :src="keep.creator.picture"
+          :alt="`Profile page for ${keep.creator.name}`" 
+          :title="`Profile page for ${keep.creator.name}`"
+          class="">
+        </router-link>
+      </div>
     </div>
     <div @click="getKeepById(keep?.id)" data-bs-target="#detailsModal" data-bs-toggle="modal">
       <img :src="keep.img" :alt="keep.name" class="keep-img">
     </div>
     <div v-if="keep.creator.id == account.id">
       <div class="d-flex justify-content-between">
-        <!-- <button class="btn btn-success" style="position: relative; bottom: 3rem; left: .5rem;" @click="editKeep(keep.id)">Edit</button> -->
         <i v-if="keep" :key="keep.id" title="Delete Keep?" class="delete-icon mdi mdi-file-document-remove fs-2" style="" @click="deleteKeep(keep.id)"></i>
       </div>
     </div>
@@ -84,30 +87,37 @@ export default {
 @import url(https://fonts.googleapis.com/css?family=Ubuntu:400,700);
 @import url(https://weloveiconfonts.com/api/?family=entypo|fontawesome|zocial);
 
+.selected {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.25rem;
+  transition: all .3s ease-in-out;
+}
+
 .keep-container {
   position: relative;
-  width: 24vw;
+  top: 3rem;
+  padding-top: 2rem;
+  width: 24.5vw;
   height: 100%;
   margin: 0 auto;
-  margin-bottom: -1rem;
+  margin-bottom: 1rem;
   border-radius: .5rem;
   overflow: hidden;
   transition: all .3s ease-in-out;
-  animation: fadeAndDropIn 1s ease-in-out forwards;
+  animation: fadeIn 2s ease-in-out forwards;
 }
 
-@keyframes fadeAndDropIn {
+@keyframes fadeIn {
   0% {
-    opacity: .3;
-    height: 6vh;
+    opacity: 0;
   }
   50% {
     opacity: .5;
-    height: 50vh;
   }
   100% {
     opacity: 1;
-    height: auto;
   }
 }
 
@@ -129,39 +139,53 @@ export default {
 }
 
 .title-container {
-  position: relative;
+  position: absolute;
   width: 90%;
-  background: radial-gradient(circle, #ffac40b0 0%, #517df4 100%);
+  height: 20%;
+  background: radial-gradient(circle, 
+                            #ffac401b 0%, 
+                            #517cf434 100%);
   display: flex;
-  justify-content: space-between;
   padding: .5em;
   align-items: center;
   border-top-left-radius: .5rem;
   border-top: 3px solid #ffb451;
   border-right: 3px solid #ffb451;
   border-left: 3px solid #ffb451;
+  white-space: nowrap;
+  z-index: 1;
 }
 
 .title-container img {
+  margin-top: 3.25rem;
   width: 2rem;
   height: 2rem;
   border-radius: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: start;
+  border: 2px solid #ffb451;
 }
 
 .keep-title {
+  box-sizing: border-box;
+  display: inline-block;
   font-family: 'Ubuntu', sans-serif;
-  margin-bottom: 0px;
-  text-shadow: 2px 2px 2px black;
-  color: aliceblue;
+  margin-top: 25px;
+  text-shadow: 3px 3px 2px #000000;
+  word-wrap: break-word;
+  color: #ffffffff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .delete-icon {
   height: 50px;
   position: absolute;
   bottom: 1rem; 
-  right: 3.5rem; 
+  right: 4.5rem; 
   color: #ff2f00;
   filter: brightness(1.3) 
           drop-shadow(1.5px 1.5px .5px #ffae00);
@@ -234,6 +258,20 @@ export default {
     width: relative;
   }
 
+}
+
+@media screen and (min-width: 1200px) {
+  .keep-title {
+    padding-bottom: .4em;
+    font-size: 2rem;
+    box-sizing: border-box;
+  }
+
+  .title-container img {
+    margin-bottom: 3rem;
+    width: 3rem;
+    height: 3rem;
+  }
 }
 
 </style>

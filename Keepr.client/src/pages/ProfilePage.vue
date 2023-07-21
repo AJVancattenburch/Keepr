@@ -10,7 +10,9 @@
                :alt="profile.name">
         </div>
         <div class="col-8 card-right d-flex flex-column justify-content-center">
-          <h5 class="ps-4 ms-5"> {{ profile.name }} </h5>
+          <div class="col-3 profile-name-box">
+            <h5 class="text-center my-3"> {{ profile.name }} </h5>
+          </div>
           <div class="row my-5">
             <div class="col-10 bio-container" style="">
               <p class="profile-bio"> {{ profile.bio }} </p>
@@ -21,8 +23,8 @@
     </div>
   </div>
 
-  <section v-if="profile" :key="profile?.id" class="row" style="overflow-x: hidden;">
-    <h2 class="carousel__title mt-3 text-center text-uppercase"> My Vaults </h2>
+  <section v-if="profile && user.isAuthenticated" :key="profile?.id" class="row" style="overflow-x: hidden;">
+    <h2 class="carousel__title mt-3 text-center text-uppercase"> {{ profile.name }}'s Vaults </h2>
     <div class="col-12 m-auto bg-dark justify-content-center align-items-center shadow-lg elevation-5">
       <Carousel 
         ref="myCarousel" 
@@ -34,7 +36,7 @@
             v-for="slide in carouselVaults" 
             :key="slide" 
             class=" ">
-                <div class="carousel__card bg-transparent" style="">
+                <div v-if="!slide.isPrivate" class="carousel__card bg-transparent" style="">
                   <div class="carousel__item">
                     <router-link :to="{ name: 'VaultDetails', params: { vaultId: slide.id }}">
                       <img 
@@ -42,6 +44,26 @@
                         @click="getVaultById(slide.id)" 
                         :src="slide.img" 
                         class="carousel__img card-img-top selectable pt-1" 
+                        :alt="slide.name">
+                    </router-link>
+                    <div class="my-3 mb-4 rounded-5" style="">
+                      <div class="content__box p-3">
+                        <h3 class="card-title"> {{ slide.name }} </h3>
+                        <div class="card-body mb-4">
+                          <p class="card-text"> {{ slide.description.split(' ').splice(0, 9).join(' ') }}... </p>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <div v-else class="carousel__card bg-transparent" style="">
+                  <div class="carousel__item">
+                    <router-link :to="{ name: 'Home' }">
+                      <img 
+                        v-if="carouselVaults" 
+                        @click="getVaultById(slide.id)" 
+                        :src="slide.img" 
+                        class="carousel__img carousel__img__private card-img-top selectable pt-1" 
                         :alt="slide.name">
                     </router-link>
                     <div class="my-3 mb-4 rounded-5" style="">
@@ -66,7 +88,7 @@
           class="carousel__btn me-5" 
           style="width: 10vw;" 
           @click="myCarousel.prev()">
-          <i title="Previous" class="mdi mdi-arrow-left-circle fs-1"></i>
+          <i title="Previous Slide" class="mdi mdi-arrow-left-circle fs-1" style="text-shadow: 1px 1px 1px black; opacity: .8"></i>
         </p>
       </div>
       <div class="col-6 col-md-6 d-flex justify-content-center">
@@ -75,14 +97,17 @@
           class="carousel__btn ms-5" 
           style="width: 10vw;" 
           @click="myCarousel.next()">
-          <i title="Next" class="mdi mdi-arrow-right-circle fs-1"></i>
+          <i title="Next Slide" class="mdi mdi-arrow-right-circle fs-1" style="text-shadow: 1px 1px 1px black; opacity: .8"></i>
         </p>
       </div>
     </div>
   </section>
+  <h2 class="profile-name text-center text-uppercase position-relative"> {{ profile.name }}'s Keeps </h2>
 
-  <div v-for="k in keeps" :key="k.id" class="col-4">
-    <KeepCard :keep="k" />
+  <div class="masonry-columns">
+    <div v-for="k in keeps" :key="k.id" class="">
+      <KeepCard :keep="k" />
+    </div>
   </div>
 
 </section>
@@ -164,6 +189,7 @@ export default {
       // route,
       myCarousel,
       account: computed(() => AppState.account),
+      user: computed(() => AppState.user),
       keep: computed(() => AppState.activeKeep),
       keeps: computed(() => AppState.userKeeps),
       vault: computed(() => AppState.userVaults),
@@ -196,6 +222,13 @@ export default {
 
 <style scoped lang="scss">
 
+.container-fluid {
+
+  background: linear-gradient(145deg, #5cc0fed0, 
+                                      #1c8ffab9 100%);
+
+}
+
 .cover-img {
   --bs-gutter-x: 0;
   width: 100%;
@@ -203,7 +236,7 @@ export default {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  padding: 5rem;
+  padding: 10rem;
 }
 
 .card {
@@ -211,6 +244,24 @@ export default {
   box-shadow: 0 0 10px 10px #2260777c;
 }
 
+.profile-name {
+  top: -2.5rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  width: 100%;
+  opacity: 1;
+  text-shadow: 1.5px 1.5px 1px #000;
+  color: #fff;
+  font-size: 2.5rem;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Roboto Slab', serif;
+  font-family: 'Roboto Mono', monospace;
+}
 
 .profile-img {
   width: 100%;
@@ -222,6 +273,25 @@ export default {
 .card-right {
   background-color: aliceblue;
   border-radius: .25rem;
+}
+
+.profile-name-box {
+  background: linear-gradient(145deg, #5cc0fed0, 
+                                      #1c8ffab9 100%);
+  box-shadow: 3px 0px 10px 0px #0482ffc5, 
+              3px 0px 10px 0px #00a6ffc9;
+  opacity: 1;
+  text-shadow: 1.5px 1.5px 1px #000;
+  color: #fff;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Roboto Slab', serif;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .bio-container {
@@ -236,6 +306,10 @@ export default {
 }
 
 .profile-bio {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .carousel * {
@@ -269,6 +343,11 @@ img.card-img-top {
   object-fit: cover;
   object-position: center;
   border-radius: .25rem;
+}
+
+.carousel__img__private {
+  opacity: .5;
+  filter: grayscale(100%) blur(1px);
 }
 
 .card-text {
@@ -363,6 +442,25 @@ img.card-img-top {
                      3px 3px 10px 3px #0482ffc5, 
                     -3px -3px 10px 3px #00a6ffc9;
   opacity: .9;
+}
+
+.masonry-columns {
+  columns: 4 200px;
+  column-gap: 2rem;
+  padding-left: 3em;
+  padding-right: 3em;
+  padding-top: 1em;
+  background-color: transparent;
+}
+
+@media screen and (max-width: 768px) {
+  .masonry-columns {
+    width: 40vw;
+    columns: 2 100px;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-bottom: 3em;
+  }
 }
 
 </style>

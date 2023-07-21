@@ -2,6 +2,9 @@
 
   <section v-if="vault" :key="vault.id" class="container-fluid">
     <div class="row">
+      <!-- <div v-if="account.id" class="d-flex justify-content-end">
+        <button>Delete Vault</button> 
+      </div> -->
       <div class="col-md-4">
         <router-link :to="{ name:  'VaultDetails', params: { vaultId: vault.id }}">
           <h1> {{ vault.name }} </h1>
