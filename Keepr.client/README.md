@@ -28,4 +28,4 @@ Keepr is a living testament to my dedication to delivering functional and user-f
 
 ---
 
-<img src="https://i.ibb.co/M2W32xp/Keepr-Image.jpg" width="125">
+<img src="https://i.ibb.co/M2W32xp/Keepr-Image.jpg" width="auto; height: auto;">
