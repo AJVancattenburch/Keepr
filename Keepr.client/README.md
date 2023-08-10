@@ -28,5 +28,5 @@ Keepr is a living testament to my dedication to delivering functional and user-f
 
 ---
 <p align="center">
-  <img src="https://i.ibb.co/M2W32xp/Keepr-Image.jpg" width="50%; height: 50%;">
+  <a href="https://ibb.co/M2W32xp"><img src="https://i.ibb.co/C1NT13v/Keepr-Image.jpg" alt="Keepr-Image" border="0"></a>
 </p>
