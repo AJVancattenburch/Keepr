@@ -27,5 +27,6 @@ Keepr is more than a project; it's a testament to my ability to envision, design
 Keepr is a living testament to my dedication to delivering functional and user-focused applications. I invite you to experience the ease and joy of managing your memories with Keepr. Let's delve into this endeavor together and see how technology can elevate our personal connections and experiences.
 
 ---
-
-<img src="https://i.ibb.co/M2W32xp/Keepr-Image.jpg" width="100%; height: 100%; padding: 15em;">
+<p align="center">
+  <img src="https://i.ibb.co/M2W32xp/Keepr-Image.jpg" width="50%; height: 50%;">
+</p>
