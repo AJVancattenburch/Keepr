@@ -1,3 +1,4 @@
+-- Active: 1707862239529@@34.213.121.253@3306@keepr
 CREATE TABLE IF NOT EXISTS accounts(
   id VARCHAR(255) NOT NULL primary key COMMENT 'primary key',
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
@@ -20,7 +21,6 @@ CREATE TABLE IF NOT EXISTS keeps(
  img VARCHAR(500) NOT NULL COMMENT 'Image',
  creatorId VARCHAR(255) NOT NULL COMMENT 'Creator Id',
  views INT NOT NULL DEFAULT 0,
-
  FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) default charset utf8mb4 COMMENT '';
 
@@ -33,7 +33,6 @@ CREATE TABLE IF NOT EXISTS vaults(
  img VARCHAR(500) NOT NULL COMMENT 'Image',
  isPrivate BOOLEAN NOT NULL DEFAULT false COMMENT 'Is Private',
  creatorId VARCHAR(255) NOT NULL COMMENT 'Creator Id',
-
  FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) default charset utf8mb4 COMMENT '';
 
@@ -44,7 +43,6 @@ CREATE TABLE IF NOT EXISTS vaultKeeps(
   vaultId INT NOT NULL COMMENT 'Vault Id',
   keepId INT NOT NULL COMMENT 'Keep Id',
   creatorId VARCHAR(255) NOT NULL COMMENT 'Creator Id',
-  
   FOREIGN KEY (vaultId) REFERENCES vaults(id) ON DELETE CASCADE,
   FOREIGN KEY (keepId) REFERENCES keeps(id) ON DELETE CASCADE,
   FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE

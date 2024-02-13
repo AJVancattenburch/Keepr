@@ -2,11 +2,11 @@
 {
   "folders": [
     {
-      "path": "Keepr.client",
+      "path": "client",
       "name": "client"
     },
     {
-      "path": "Keepr",
+      "path": "server",
       "name": "server"
     },{"path":".github/workflows", "name":"workflows"}
   ],
