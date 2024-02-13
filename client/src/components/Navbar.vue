@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
         <div class="d-flex flex-column align-items-center">
-          <img title="home" alt="logo" src="src/assets/img/keepr-logo.png" class="keepr-logo" style="opacity: .9; filter: blur(.25px)" height="45" />
+          <img title="home" alt="logo" src="/src/assets/img/keepr_logo.png" class="keepr-logo" style="opacity: .9; filter: blur(.25px)" height="45" />
         </div>
       </router-link>
 
